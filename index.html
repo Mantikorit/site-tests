@@ -1,0 +1,1132 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Калькулятор скорости видео</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            position: relative;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 700px;
+            padding: 30px;
+            text-align: center;
+            overflow: hidden;
+        }
+        
+        /* Кнопка "Назад" */
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #f1f2f6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            z-index: 10;
+        }
+        
+        .back-button:hover {
+            background: #3498db;
+            transform: translateX(-3px);
+        }
+        
+        .back-button:hover i {
+            color: white;
+        }
+        
+        .back-button i {
+            color: #2c3e50;
+            font-size: 18px;
+            transition: all 0.3s ease;
+        }
+        
+        header {
+            margin-bottom: 25px;
+            position: relative;
+            padding-top: 10px;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            font-size: 32px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        .subtitle {
+            color: #7f8c8d;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+        
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin: 25px 0;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .tab {
+            padding: 12px 30px;
+            background: #f1f2f6;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .tab.active {
+            background: linear-gradient(to right, #1a2a6c, #b21f1f);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .input-group {
+            margin: 20px 0;
+            text-align: left;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2c3e50;
+            display: flex;
+            align-items: center;
+        }
+        
+        label i {
+            margin-right: 10px;
+            color: #3498db;
+            min-width: 24px;
+        }
+        
+        input {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+        }
+        
+        .note {
+            font-size: 14px;
+            color: #7f8c8d;
+            margin-top: 5px;
+            padding-left: 5px;
+        }
+        
+        .input-format {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+        }
+        
+        .format-option {
+            flex: 1;
+            padding: 12px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border: 2px solid #e0e0e0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        
+        .format-option.active {
+            background: #e3f2fd;
+            border-color: #3498db;
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+        }
+        
+        .format-option i {
+            font-size: 20px;
+            margin-bottom: 5px;
+            display: block;
+        }
+        
+        button.calculate-btn {
+            background: linear-gradient(to right, #1a2a6c, #b21f1f);
+            color: white;
+            border: none;
+            padding: 14px 25px;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            margin: 25px 0;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        button.calculate-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        button.calculate-btn:active {
+            transform: translateY(0);
+        }
+        
+        .result {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 25px;
+            margin-top: 20px;
+            display: none;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
+            text-align: center;
+        }
+        
+        .speed-result {
+            border: 2px dashed #27ae60;
+        }
+        
+        .time-result {
+            border: 2px dashed #3498db;
+        }
+        
+        .result.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .result h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .time-display {
+            font-size: 32px;
+            font-weight: bold;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 8px;
+        }
+        
+        .speed-up {
+            color: #e74c3c;
+            background: #fef2f2;
+        }
+        
+        .slow-down {
+            color: #2980b9;
+            background: #f0f7ff;
+        }
+        
+        .speed-display {
+            font-size: 36px;
+            font-weight: bold;
+            margin: 15px 0;
+            background: linear-gradient(to right, #27ae60, #2ecc71);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 5px;
+        }
+        
+        .davinci-percent {
+            font-size: 26px;
+            font-weight: bold;
+            color: #9b59b6;
+            margin: 10px 0;
+            padding: 10px;
+            background: #f5f3ff;
+            border-radius: 8px;
+        }
+        
+        .time-change {
+            font-size: 18px;
+            color: #2c3e50;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+            font-weight: 500;
+        }
+        
+        .speed-up-change {
+            color: #27ae60;
+        }
+        
+        .slow-down-change {
+            color: #2980b9;
+        }
+        
+        .percent-change {
+            font-size: 24px;
+            font-weight: bold;
+            padding: 8px 15px;
+            border-radius: 8px;
+            display: inline-block;
+            margin: 10px 0;
+        }
+        
+        .percent-up {
+            color: #27ae60;
+            background: rgba(39, 174, 96, 0.1);
+        }
+        
+        .percent-down {
+            color: #e74c3c;
+            background: rgba(231, 76, 60, 0.1);
+        }
+        
+        .examples {
+            margin-top: 30px;
+            text-align: left;
+            background: #f0f7ff;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #3498db;
+        }
+        
+        .examples h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .examples-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 10px;
+        }
+        
+        .example-card {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .example-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .example-card .value {
+            font-weight: bold;
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
+        
+        .example-card .label {
+            font-size: 14px;
+            color: #7f8c8d;
+        }
+        
+        footer {
+            margin-top: 25px;
+            font-size: 14px;
+            color: #7f8c8d;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .mode-info {
+            background: #fff8e1;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            text-align: left;
+            border-left: 4px solid #ffc107;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+        
+        .davinci-highlight {
+            background: #e8f4ff;
+            padding: 3px 8px;
+            border-radius: 5px;
+            font-weight: bold;
+            color: #2980b9;
+        }
+        
+        .error-message {
+            color: #e74c3c;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+        
+        .info-icon {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            width: 24px;
+            height: 24px;
+            background: #3498db;
+            color: white;
+            border-radius: 50%;
+            font-size: 14px;
+            margin-right: 8px;
+        }
+        
+        /* Добавленные стили для чекбокса миллисекунд */
+        .milliseconds-option {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+            gap: 8px;
+        }
+        
+        .milliseconds-option input {
+            width: auto;
+        }
+        
+        .milliseconds-label {
+            font-size: 14px;
+            color: #2c3e50;
+        }
+        
+        .milliseconds-example {
+            font-size: 12px;
+            color: #7f8c8d;
+            margin-top: 3px;
+            padding-left: 0;
+        }
+        
+        @media (max-width: 600px) {
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .tab {
+                width: 100%;
+                margin: 5px 0;
+            }
+            
+            h1 {
+                font-size: 26px;
+            }
+            
+            .input-format {
+                flex-direction: column;
+            }
+            
+            .examples-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .back-button {
+                top: 15px;
+                left: 15px;
+                width: 36px;
+                height: 36px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Кнопка "Назад" -->
+        <div class="back-button" id="backButton" title="Вернуться назад">
+            <i class="fas fa-arrow-left"></i>
+        </div>
+        
+        <header>
+            <h1>
+                <i class="fas fa-film"></i>
+                Калькулятор скорости видео
+                <i class="fas fa-calculator"></i>
+            </h1>
+            <div class="subtitle">Расчет ускорения, замедления и процентных изменений</div>
+        </header>
+        
+        <div class="tabs">
+            <button class="tab active" data-tab="time">
+                <i class="fas fa-clock"></i> Расчёт времени
+            </button>
+            <button class="tab" data-tab="speed">
+                <i class="fas fa-tachometer-alt"></i> Расчёт коэффициента
+            </button>
+        </div>
+        
+        <!-- Режим расчета времени -->
+        <div id="time-tab" class="tab-content active">
+            <div class="mode-info">
+                <i class="fas fa-info-circle"></i>
+                <span>Введите исходное время видео и коэффициент ускорения/замедления, чтобы получить новое время и процентное изменение</span>
+            </div>
+            
+            <div class="input-group">
+                <label for="duration"><i class="fas fa-clock"></i> Исходная длительность видео:</label>
+                <input type="text" id="duration" placeholder="ЧЧ:ММ:СС.ммм или ММ:СС.ммм" value="00:10:00">
+                <div class="note">Примеры: 1:30:00 (1 час 30 мин), 45:00 (45 мин), 120 (120 сек), 00:00:12.500 (12.5 сек)</div>
+                <div class="error-message" id="duration-error"></div>
+                
+                <!-- Чекбокс для миллисекунд -->
+                <div class="milliseconds-option">
+                    <input type="checkbox" id="use-ms-time">
+                    <span class="milliseconds-label">Учитывать миллисекунды</span>
+                </div>
+                <div class="milliseconds-example">Используйте формат ЧЧ:ММ:СС.ммм или СС.ммм</div>
+            </div>
+            
+            <div class="input-group">
+                <label><i class="fas fa-sliders-h"></i> Формат скорости:</label>
+                <div class="input-format">
+                    <div class="format-option active" data-format="multiplier">
+                        <i class="fas fa-times"></i>
+                        Коэффициент (x)
+                        <div class="note">1.5 = в 1.5 раза быстрее, 0.75 = в 0.75 раза</div>
+                    </div>
+                    <div class="format-option" data-format="davinci">
+                        <i class="fas fa-percent"></i>
+                        Процент (%)
+                        <div class="note">150% = в 1.5 раза, 75% = в 0.75 раза (DaVinci)</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="input-group">
+                <label for="speed"><i class="fas fa-running"></i> Скорость воспроизведения:</label>
+                <input type="number" id="speed" min="0.1" max="10" step="0.001" value="1.5" placeholder="1.5">
+                <div class="note" id="speed-note">Например: 1.25 (ускорение на 25%), 0.8 (замедление на 20%)</div>
+                <div class="error-message" id="speed-error"></div>
+            </div>
+            
+            <button class="calculate-btn" onclick="calculateTime()">
+                <i class="fas fa-calculator"></i> Рассчитать новое время
+            </button>
+            
+            <div class="result time-result" id="time-result">
+                <h3><i class="fas fa-hourglass-half"></i> Результат расчета времени</h3>
+                <div class="time-display" id="newTime">00:06:40</div>
+                
+                <div class="davinci-percent" id="davinciTimePercent">
+                    Процент для DaVinci: 150%
+                </div>
+                
+                <div class="percent-change" id="percentChange">
+                    Время уменьшилось на 33.3%
+                </div>
+                
+                <div class="time-change" id="timeChange">
+                    Экономия времени: 3 минуты 20 секунд (исходное время: 10:00)
+                </div>
+            </div>
+        </div>
+        
+        <!-- Режим расчета коэффициента -->
+        <div id="speed-tab" class="tab-content">
+            <div class="mode-info">
+                <i class="fas fa-info-circle"></i>
+                <span>Введите исходное и желаемое время видео, чтобы получить коэффициент скорости и процентное изменение</span>
+            </div>
+            
+            <div class="input-group">
+                <label for="original-duration"><i class="fas fa-clock"></i> Исходная длительность видео:</label>
+                <input type="text" id="original-duration" placeholder="ЧЧ:ММ:СС.ммм или ММ:СС.ммм" value="00:10:00">
+                <div class="note">Примеры: 1:30:00 (1 час 30 мин), 45:00 (45 мин), 120 (120 сек), 00:00:12.500 (12.5 сек)</div>
+                <div class="error-message" id="original-duration-error"></div>
+            </div>
+            
+            <div class="input-group">
+                <label for="target-duration"><i class="fas fa-bullseye"></i> Желаемая длительность видео:</label>
+                <input type="text" id="target-duration" placeholder="ЧЧ:ММ:СС.ммм или ММ:СС.ммм" value="00:05:00">
+                <div class="note">Примеры: 1:00:00 (1 час), 30:00 (30 мин), 60 (60 сек), 00:00:06.250 (6.25 сек)</div>
+                <div class="error-message" id="target-duration-error"></div>
+                
+                <!-- Чекбокс для миллисекунд -->
+                <div class="milliseconds-option">
+                    <input type="checkbox" id="use-ms-speed">
+                    <span class="milliseconds-label">Учитывать миллисекунды</span>
+                </div>
+                <div class="milliseconds-example">Используйте формат ЧЧ:ММ:СС.ммм или СС.ммм</div>
+            </div>
+            
+            <button class="calculate-btn" onclick="calculateSpeed()">
+                <i class="fas fa-calculator"></i> Рассчитать коэффициент
+            </button>
+            
+            <div class="result speed-result" id="speed-result">
+                <h3><i class="fas fa-calculator"></i> Результат расчета скорости</h3>
+                <div class="speed-display" id="speedFactor">2.0x</div>
+                
+                <div class="davinci-percent" id="davinciSpeedPercent">
+                    Процент для DaVinci: 200%
+                </div>
+                
+                <div class="percent-change" id="speedPercentChange">
+                    Время уменьшилось на 50%
+                </div>
+                
+                <div class="time-change" id="speedInfo">
+                    Для уменьшения времени с 10 минут до 5 минут
+                </div>
+            </div>
+        </div>
+        
+        <div class="examples">
+            <h3><i class="fas fa-lightbulb"></i> Примеры скорости и процентных изменений</h3>
+            <div class="examples-grid">
+                <div class="example-card">
+                    <div class="value">0.5x</div>
+                    <div class="label">Замедление 100%<br>Время +100%</div>
+                </div>
+                <div class="example-card">
+                    <div class="value">0.75x</div>
+                    <div class="label">Замедление 25%<br>Время +33%</div>
+                </div>
+                <div class="example-card">
+                    <div class="value">1.0x</div>
+                    <div class="label">Нормальная скорость<br>Время 0%</div>
+                </div>
+                <div class="example-card">
+                    <div class="value">1.25x</div>
+                    <div class="label">Ускорение 25%<br>Время -20%</div>
+                </div>
+                <div class="example-card">
+                    <div class="value">1.5x</div>
+                    <div class="label">Ускорение 50%<br>Время -33%</div>
+                </div>
+                <div class="example-card">
+                    <div class="value">2.0x</div>
+                    <div class="label">Ускорение 100%<br>Время -50%</div>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <div class="info-icon">i</div>
+            <div>Формула изменения времени: <span class="davinci-highlight">% изменения = (1 - новое_время / исходное_время) × 100%</span></div>
+        </footer>
+    </div>
+
+    <script>
+        // =============================================
+        // ОСНОВНАЯ ЛОГИКА ПРИЛОЖЕНИЯ
+        // =============================================
+        
+        /**
+         * Инициализация при загрузке страницы
+         * - Настройка обработчиков событий
+         * - Первоначальный расчет
+         */
+        window.onload = function() {
+            // Настройка переключения вкладок
+            setupTabs();
+            
+            // Настройка переключения форматов ввода
+            setupFormatOptions();
+            
+            // Обработчики клавиши Enter для быстрого расчета
+            document.getElementById('speed').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') calculateTime();
+            });
+            
+            document.getElementById('target-duration').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') calculateSpeed();
+            });
+            
+            // Обработчик для кнопки "Назад"
+            document.getElementById('backButton').addEventListener('click', function() {
+                window.history.back();
+            });
+            
+            // Первоначальный расчет для первой вкладки
+            calculateTime();
+        };
+        
+        /**
+         * Настройка переключения вкладок
+         */
+        function setupTabs() {
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.addEventListener('click', () => {
+                    // Удаляем активный класс у всех вкладок
+                    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                    // Скрываем все содержимое вкладок
+                    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                    
+                    // Активируем текущую вкладку
+                    tab.classList.add('active');
+                    const tabId = tab.getAttribute('data-tab');
+                    document.getElementById(`${tabId}-tab`).classList.add('active');
+                });
+            });
+        }
+        
+        /**
+         * Настройка переключения форматов ввода (коэффициент/проценты)
+         */
+        function setupFormatOptions() {
+            document.querySelectorAll('.format-option').forEach(option => {
+                option.addEventListener('click', () => {
+                    // Удаляем активный класс у всех вариантов формата
+                    document.querySelectorAll('.format-option').forEach(o => o.classList.remove('active'));
+                    // Активируем выбранный вариант
+                    option.classList.add('active');
+                    
+                    // Обновляем формат ввода
+                    const format = option.getAttribute('data-format');
+                    updateInputFormat(format);
+                });
+            });
+        }
+        
+        /**
+         * Обновление формата ввода скорости
+         * @param {string} format - 'multiplier' для коэффициента, 'davinci' для процентов
+         */
+        function updateInputFormat(format) {
+            const input = document.getElementById('speed');
+            const note = document.getElementById('speed-note');
+            
+            if (format === 'davinci') {
+                // Формат процентов (DaVinci Resolve)
+                input.placeholder = "150";
+                note.textContent = "Например: 125 (125% = 1.25x), 75 (75% = 0.75x)";
+                // Конвертация текущего значения в проценты
+                if (!isNaN(parseFloat(input.value))) {
+                    input.value = (parseFloat(input.value) * 100).toFixed(0);
+                }
+            } else {
+                // Формат коэффициента
+                input.placeholder = "1.5";
+                note.textContent = "Например: 1.25 (ускорение на 25%), 0.8 (замедление на 20%)";
+                // Конвертация текущего значения в коэффициент
+                if (!isNaN(parseFloat(input.value))) {
+                    input.value = (parseFloat(input.value)).toFixed(2);
+                }
+            }
+        }
+        
+        /**
+         * Скрытие всех сообщений об ошибках
+         */
+        function hideErrors() {
+            document.querySelectorAll('.error-message').forEach(el => {
+                el.style.display = 'none';
+                el.textContent = '';
+            });
+        }
+        
+        /**
+         * Отображение сообщения об ошибке
+         * @param {string} elementId - ID элемента для отображения ошибки
+         * @param {string} message - Текст сообщения об ошибке
+         */
+        function showError(elementId, message) {
+            const errorElement = document.getElementById(elementId);
+            errorElement.textContent = message;
+            errorElement.style.display = 'block';
+        }
+        
+        /**
+         * Расчет нового времени видео (режим "Расчет времени")
+         */
+        function calculateTime() {
+            // Скрываем предыдущие ошибки
+            hideErrors();
+            
+            // Получаем значения из формы
+            const durationInput = document.getElementById('duration').value.trim();
+            let speedValue = document.getElementById('speed').value.trim();
+            const format = document.querySelector('.format-option.active').getAttribute('data-format');
+            const useMilliseconds = document.getElementById('use-ms-time').checked;
+            
+            // Проверка и преобразование скорости
+            if (speedValue === '') {
+                showError('speed-error', 'Пожалуйста, введите значение скорости');
+                return;
+            }
+            
+            speedValue = parseFloat(speedValue);
+            
+            if (isNaN(speedValue)) {
+                showError('speed-error', 'Пожалуйста, введите числовое значение');
+                return;
+            }
+            
+            // Обработка формата DaVinci (проценты)
+            if (format === 'davinci') {
+                if (speedValue <= 0 || speedValue > 1000) {
+                    showError('speed-error', 'Процент скорости должен быть в диапазоне от 0.1% до 1000%');
+                    return;
+                }
+                // Преобразуем проценты в коэффициент (150% = 1.5)
+                speedValue = speedValue / 100;
+            } else {
+                // Проверка для формата коэффициента
+                if (speedValue <= 0 || speedValue > 10) {
+                    showError('speed-error', 'Коэффициент скорости должен быть в диапазоне от 0.1 до 10');
+                    return;
+                }
+            }
+            
+            // Парсим введенное время в секунды
+            const totalSeconds = parseTime(durationInput, 'duration-error');
+            if (totalSeconds === null) return;
+            
+            // Рассчитываем новую длительность
+            const newTotalSeconds = totalSeconds / speedValue;
+            const formattedOriginal = formatTime(totalSeconds, useMilliseconds);
+            const formattedNew = formatTime(newTotalSeconds, useMilliseconds);
+            const timeDiff = Math.abs(totalSeconds - newTotalSeconds);
+            const formattedDiff = formatTime(timeDiff, useMilliseconds);
+            
+            // Рассчитываем процент для DaVinci
+            const davinciPercent = Math.round(speedValue * 100);
+            
+            // Рассчитываем процентное изменение времени
+            const percentChange = ((totalSeconds - newTotalSeconds) / totalSeconds * 100).toFixed(1);
+            const absPercentChange = Math.abs(percentChange);
+            
+            // Определяем тип изменения (ускорение или замедление)
+            const isSpeedUp = speedValue > 1;
+            const isSlowDown = speedValue < 1;
+            
+            // Обновляем интерфейс с результатами
+            const timeDisplay = document.getElementById('newTime');
+            timeDisplay.textContent = formattedNew;
+            
+            const percentChangeElement = document.getElementById('percentChange');
+            
+            // Обработка ускорения
+            if (isSpeedUp) {
+                timeDisplay.className = 'time-display speed-up';
+                document.getElementById('timeChange').className = 'time-change speed-up-change';
+                document.getElementById('timeChange').textContent = 
+                    `Экономия времени: ${formattedDiff} (исходное время: ${formattedOriginal})`;
+                
+                percentChangeElement.textContent = `Время уменьшилось на ${absPercentChange}%`;
+                percentChangeElement.className = 'percent-change percent-down';
+            } 
+            // Обработка замедления
+            else if (isSlowDown) {
+                timeDisplay.className = 'time-display slow-down';
+                document.getElementById('timeChange').className = 'time-change slow-down-change';
+                document.getElementById('timeChange').textContent = 
+                    `Увеличение времени: ${formattedDiff} (исходное время: ${formattedOriginal})`;
+                
+                percentChangeElement.textContent = `Время увеличилось на ${absPercentChange}%`;
+                percentChangeElement.className = 'percent-change percent-up';
+            } 
+            // Без изменений (скорость = 1.0)
+            else {
+                timeDisplay.className = 'time-display';
+                document.getElementById('timeChange').className = 'time-change';
+                document.getElementById('timeChange').textContent = 
+                    `Время не изменилось (исходное время: ${formattedOriginal})`;
+                
+                percentChangeElement.textContent = `Время не изменилось (0%)`;
+                percentChangeElement.className = 'percent-change';
+            }
+            
+            // Обновляем информацию для DaVinci
+            document.getElementById('davinciTimePercent').textContent = `Процент для DaVinci: ${davinciPercent}%`;
+            
+            // Показываем блок с результатами
+            document.getElementById('time-result').classList.add('active');
+        }
+        
+        /**
+         * Расчет коэффициента скорости (режим "Расчет коэффициента")
+         */
+        function calculateSpeed() {
+            // Скрываем предыдущие ошибки
+            hideErrors();
+            
+            // Получаем значения из формы
+            const originalInput = document.getElementById('original-duration').value.trim();
+            const targetInput = document.getElementById('target-duration').value.trim();
+            const useMilliseconds = document.getElementById('use-ms-speed').checked;
+            
+            // Парсим введенное время в секунды
+            const originalSeconds = parseTime(originalInput, 'original-duration-error');
+            const targetSeconds = parseTime(targetInput, 'target-duration-error');
+            
+            if (originalSeconds === null || targetSeconds === null) return;
+            
+            // Проверка на положительное значение времени
+            if (targetSeconds <= 0) {
+                showError('target-duration-error', 'Желаемое время должно быть больше 0');
+                return;
+            }
+            
+            // Рассчитываем коэффициент скорости
+            const speedFactor = originalSeconds / targetSeconds;
+            const davinciPercent = Math.round(speedFactor * 100);
+            
+            // Форматируем время для отображения
+            const formattedOriginal = formatTime(originalSeconds, useMilliseconds);
+            const formattedTarget = formatTime(targetSeconds, useMilliseconds);
+            
+            // Рассчитываем процентное изменение времени
+            const percentChange = ((originalSeconds - targetSeconds) / originalSeconds * 100).toFixed(1);
+            const absPercentChange = Math.abs(percentChange);
+            
+            // Определяем тип изменения (ускорение или замедление)
+            const isSpeedUp = targetSeconds < originalSeconds;
+            const isSlowDown = targetSeconds > originalSeconds;
+            const timeDiff = Math.abs(originalSeconds - targetSeconds);
+            const formattedDiff = formatTime(timeDiff, useMilliseconds);
+            
+            // Обновляем интерфейс с результатами
+            document.getElementById('speedFactor').textContent = speedFactor.toFixed(3) + 'x';
+            document.getElementById('davinciSpeedPercent').textContent = `Процент для DaVinci: ${davinciPercent}%`;
+            
+            const speedInfo = document.getElementById('speedInfo');
+            const percentChangeElement = document.getElementById('speedPercentChange');
+            
+            // Обработка ускорения
+            if (isSpeedUp) {
+                speedInfo.innerHTML = 
+                    `Для уменьшения времени с <b>${formattedOriginal}</b> до <b>${formattedTarget}</b><br>
+                     Экономия времени: <b>${formattedDiff}</b>`;
+                speedInfo.className = 'time-change speed-up-change';
+                
+                percentChangeElement.textContent = `Время уменьшилось на ${absPercentChange}%`;
+                percentChangeElement.className = 'percent-change percent-down';
+            } 
+            // Обработка замедления
+            else if (isSlowDown) {
+                speedInfo.innerHTML = 
+                    `Для увеличения времени с <b>${formattedOriginal}</b> до <b>${formattedTarget}</b><br>
+                     Увеличение времени: <b>${formattedDiff}</b>`;
+                speedInfo.className = 'time-change slow-down-change';
+                
+                percentChangeElement.textContent = `Время увеличилось на ${absPercentChange}%`;
+                percentChangeElement.className = 'percent-change percent-up';
+            } 
+            // Без изменений
+            else {
+                speedInfo.innerHTML = `Время не изменилось`;
+                speedInfo.className = 'time-change';
+                
+                percentChangeElement.textContent = `Время не изменилось (0%)`;
+                percentChangeElement.className = 'percent-change';
+            }
+            
+            // Показываем блок с результатами
+            document.getElementById('speed-result').classList.add('active');
+        }
+        
+        /**
+         * Парсинг времени из строки в секунды (с поддержкой миллисекунд)
+         * @param {string} input - Входная строка времени
+         * @param {string} errorElementId - ID элемента для отображения ошибки
+         * @returns {number|null} Количество секунд или null при ошибке
+         */
+        function parseTime(input, errorElementId) {
+            if (!input) {
+                showError(errorElementId, 'Пожалуйста, введите значение времени');
+                return null;
+            }
+            
+            // Заменяем запятые на точки для поддержки обоих форматов
+            input = input.replace(',', '.');
+            
+            // Обработка формата с миллисекундами
+            if (input.includes('.')) {
+                const parts = input.split('.');
+                const millisecondsPart = parts.pop();
+                
+                if (millisecondsPart.length > 3) {
+                    showError(errorElementId, 'Миллисекунды должны содержать не более 3 цифр');
+                    return null;
+                }
+                
+                // Форматируем миллисекунды (дополняем до 3 цифр и обрезаем, если больше 3)
+                const milliseconds = parseInt(millisecondsPart.padEnd(3, '0').substring(0,3));
+                
+                if (isNaN(milliseconds)) {
+                    showError(errorElementId, 'Некорректный формат миллисекунд');
+                    return null;
+                }
+                
+                // Объединяем оставшиеся части (часы:минуты:секунды)
+                const timeString = parts.join('.');
+                let totalSeconds = 0;
+                
+                // Парсим основную часть времени
+                if (timeString.includes(':')) {
+                    const timeParts = timeString.split(':').map(part => parseInt(part));
+                    
+                    // Проверка на корректность чисел
+                    if (timeParts.some(isNaN)) {
+                        showError(errorElementId, 'Некорректный формат времени. Используйте ЧЧ:ММ:СС.ммм или ММ:СС.ммм');
+                        return null;
+                    }
+                    
+                    // Обработка формата ЧЧ:ММ:СС
+                    if (timeParts.length === 3) {
+                        totalSeconds = timeParts[0] * 3600 + timeParts[1] * 60 + timeParts[2];
+                    } 
+                    // Обработка формата ММ:СС
+                    else if (timeParts.length === 2) {
+                        totalSeconds = timeParts[0] * 60 + timeParts[1];
+                    } else {
+                        showError(errorElementId, 'Некорректный формат времени. Используйте ЧЧ:ММ:СС.ммм или ММ:СС.ммм');
+                        return null;
+                    }
+                } else if (timeString !== '') {
+                    // Только секунды
+                    const seconds = parseFloat(timeString);
+                    if (isNaN(seconds)) {
+                        showError(errorElementId, 'Некорректный формат времени');
+                        return null;
+                    }
+                    totalSeconds = seconds;
+                }
+                
+                // Возвращаем общее количество секунд с миллисекундами
+                return totalSeconds + milliseconds / 1000;
+            }
+            
+            // Обработка формата без миллисекунд
+            if (input.includes(':')) {
+                const parts = input.split(':').map(part => parseInt(part));
+                
+                // Проверка на корректность чисел
+                if (parts.some(isNaN)) {
+                    showError(errorElementId, 'Некорректный формат времени. Используйте ЧЧ:ММ:СС или ММ:СС');
+                    return null;
+                }
+                
+                // Обработка формата ЧЧ:ММ:СС
+                if (parts.length === 3) {
+                    return parts[0] * 3600 + parts[1] * 60 + parts[2];
+                } 
+                // Обработка формата ММ:СС
+                else if (parts.length === 2) {
+                    return parts[0] * 60 + parts[1];
+                } else {
+                    showError(errorElementId, 'Некорректный формат времени. Используйте ЧЧ:ММ:СС или ММ:СС');
+                    return null;
+                }
+            } 
+            // Обработка значения в секундах (просто число)
+            else if (!isNaN(parseFloat(input))) {
+                return parseFloat(input);
+            } 
+            // Ошибка формата
+            else {
+                showError(errorElementId, 'Некорректный формат времени. Используйте ЧЧ:ММ:СС, ММ:СС или секунды');
+                return null;
+            }
+        }
+        
+        /**
+         * Форматирование времени из секунд в ЧЧ:ММ:СС, ММ:СС или секунды (с поддержкой миллисекунд)
+         * @param {number} totalSeconds - Общее количество секунд
+         * @param {boolean} showMilliseconds - Флаг отображения миллисекунд
+         * @returns {string} Отформатированное время
+         */
+        function formatTime(totalSeconds, showMilliseconds = false) {
+            // Выделяем целые секунды и миллисекунды
+            const secondsInteger = Math.floor(totalSeconds);
+            const milliseconds = Math.round((totalSeconds - secondsInteger) * 1000);
+            
+            const hours = Math.floor(secondsInteger / 3600);
+            const minutes = Math.floor((secondsInteger % 3600) / 60);
+            const seconds = Math.floor(secondsInteger % 60);
+            
+            // Функция для добавления ведущего нуля
+            const pad = (num) => num.toString().padStart(2, '0');
+            
+            // Форматируем миллисекунды при необходимости
+            let msString = '';
+            if (showMilliseconds) {
+                msString = '.' + milliseconds.toString().padStart(3, '0');
+            }
+            
+            // Форматирование в зависимости от величины
+            if (hours > 0) {
+                return `${pad(hours)}:${pad(minutes)}:${pad(seconds)}${msString}`;
+            } else if (minutes > 0) {
+                return `${pad(minutes)}:${pad(seconds)}${msString}`;
+            } else {
+                // Для секунд показываем миллисекунды только если нужно или они есть
+                if (showMilliseconds || milliseconds > 0) {
+                    return `${seconds + milliseconds/1000} сек`;
+                }
+                return `${seconds} сек`;
+            }
+        }
+    </script>
+</body>
+</html>
