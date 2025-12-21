@@ -1,0 +1,35 @@
+{
+  "parallax": {
+    "enabled": true,
+    "intensity": 60,
+    "maxOffset": 100,
+    "smoothness": 0.1,
+    "useGyro": true
+  },
+  "nebulaLayerDepth": 0.25,
+  "nebula": {
+    "count": 7,
+    "minSize": "10",
+    "maxSize": "50",
+    "blur": [35,70],
+    "opacity": [0.08, 0.22],
+    "palettes": [
+      ["#3a1a5e", "#5e2a8f", "#8a44cc"],
+      ["#1a2d5e", "#2a5e9f", "#4488ff"],
+      ["#1a4d4d", "#2a8f8f", "#44cccc"],
+      ["#4d1a3a", "#8f2a5e", "#cc4488"],
+      ["#2a1a4d", "#5e2a8f", "#8844cc"],
+      ["#1a3d2d", "#2a8f5e", "#44cc88"],
+      ["#3d2a1a", "#8f5e2a", "#cc8844"]
+    ]
+  },
+  "stars": {
+    "depths": [0.1, 0.4, 0.7, 1.0],
+    "layers": [
+      { "count": 450, "size": [0.6, 1.5], "opacity": [0.4, 0.9], "twinkleChance": 0.3 },
+      { "count": 280, "size": [1.0, 2.5], "opacity": [0.5, 0.95], "twinkleChance": 0.5 },
+      { "count": 140, "size": [1.7, 3.8], "opacity": [0.7, 1.0], "twinkleChance": 0.8 },
+      { "count":  60, "size": [2.8, 6.5], "opacity": [0.9, 1.0], "twinkleChance": 1.0 }
+    ]
+  }
+}
