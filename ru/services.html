@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Mantikorit | services</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="icon" href="../assets/favicon.png" type="image/x-icon">
+
+</head>
+<body>
+
+    <header class="content" style="z-index: 2;">
+
+        <nav>     
+            <a href="index.html" class="neural-network" data-text="Mantikorit">Mantikorit</a>
+
+            <input type="checkbox" id="menu-checkbox">
+
+            <ul class="menu">
+                <li><button class="close-btn" onclick="document.getElementById('menu-checkbox').checked = false;">
+                    Закрыть
+                </button></li>
+                
+                <div class="menu-poloska"></div> 
+                
+                <li><a href="index.html">Главная</a></li>
+                <li><a href="links.html">Ссылки</a></li>
+                <li><a href="projects.html">Проекты</a></li>
+                <li><a href="services.html">Услуги</a></li>
+                <li><a href="osite.html">О сайте</a></li>
+
+                <div class="menu-poloska"></div> 
+
+                <li><p class="act">> &nbsp;&nbsp; RU</p></li>
+                <li><a href="">EN</a></li>    
+
+                <div class="menu-poloska"></div> 
+
+                <div class="menu-text">
+                    <p>> by Mantiorit</p>
+                    <p>> v2.0</p>
+                </div>
+            </ul>
+
+            <button class="menu-toggle" onclick="document.getElementById('menu-checkbox').checked = true;">
+                <span class="menu-text">Меню</span>
+                <span class="menu-icon">☰</span>
+            </button>
+            
+            <label for="menu-checkbox" class="overlay"></label>
+    
+        </nav>
+
+    </header>
+
+    <div class="page" style="z-index: 1;">
+        <main class="content">
+            <section id="site" class="me">
+                <a href="links.html#contact">
+                    <h1>Услугии</h1>
+                    <p> Услуги и ценники формируются</p>
+                    <p>> Уточняйте про это или следите за объявлениями (как минимум в тгк).</p>
+                </a>
+            </section>
+
+            <section id="price" class="price">
+                <h2>Услуги, которые в планах:</h2>
+                <ul> 
+                    <li>Коммишки</li>
+                    <li>ПНГмодельки</li>
+                </ul>
+                <img class="gif-xm" alt="Загрузка" src="..\assets\fy8O.gif">
+            </section>
+
+        </main>
+    </div>
+
+    <footer>
+        <!--<div>Сделано @Mantikorit для личных целей / 2025</div>-->
+    </footer>
+
+    <script src="../scripts/bg_space.js" data-config="../jsons/bg_defolt.json"></script>
+</body>
+</html>
+

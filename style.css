@@ -1,0 +1,860 @@
+@import url('https://fonts.googleapis.com/css2?family=Play:wght@400;700&family=Tektur:wght@400..900&display=swap');
+
+* { margin:0; padding:0; 
+  box-sizing:border-box; 
+  color: rgb(236, 236, 236);
+  text-shadow:  4px #000000;
+  font-family: 'Play', sans-serif;
+}
+
+body, html { 
+  height: 100%; 
+  background: #000; 
+  color: rgb(214, 214, 214);
+}
+
+@keyframes fadeIn {
+  to {
+     opacity: 1;
+    }
+  }
+
+html {
+  overflow-x: hidden;
+  font-size: 1.25rem;
+  scroll-behavior: smooth;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;  
+  overflow: auto;   
+  opacity: 0;                    
+  animation: fadeIn 3s ease-out forwards;
+}
+
+/*<--- Для фона*--->*/
+.space { position:absolute; inset:0; pointer-events:none; overflow:hidden; }
+.layer { position:absolute; inset:0; will-change:transform; }
+.content { position:relative; pointer-events:none; } /*Элементы над фоном*/
+.content * { pointer-events:auto; }
+
+
+/* Кнопка меню справа */
+.menu-toggle {
+  content: "Меню ☰";
+  padding: 0 10px 0 32px; 
+  color: rgb(236, 236, 236);
+  cursor: pointer;
+  font-size: 30px;
+  background: none;
+  border: none;
+  transition: color 0.1s ease-in-out, transform 0.1s ease-in-out;
+  text-shadow: 
+    0 0 20px rgb(0, 0, 0),
+    0 0 20px rgb(0, 0, 0),
+    0 0 20px rgb(0, 0, 0);
+}
+
+.menu-toggle:hover {
+  color: rgb(236, 236, 236);
+  transform: scale(1.1);
+  font-weight: bold;
+}
+
+.menu-text::after {
+  content: ">";
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%) translateX(-8px);  /* старт — стрелка скрыта левее */
+  opacity: 0;
+  transition: opacity 0.18s ease, transform 0.18s ease;
+  font-weight: bold;
+  color: inherit;
+}
+
+.menu-text:hover::after {
+  opacity: 1;
+  transform: translateY(-50%) translateX(0);   /* стрелка выезжает на место */
+}
+
+
+/* Чекбокс скрыт */
+#menu-checkbox {
+  display: none;
+}
+
+/* Меню */
+.menu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  position: fixed;
+  top: 0;
+  right: -300px; /* Скрыто справа */
+  width: 250px;
+  height: 100%;
+  background-color: #000000cb;
+  transition: right 0.15s ease-in-out, opacity 0.3s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  z-index: 1000;
+  opacity: 0;
+  border-left: 3px solid rgb(236, 236, 236);
+}
+
+.menu li {
+  text-align: left;
+}
+
+.act {
+  color: #000000;
+  background: #ffffff71;
+  padding: 0px 10px;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.menu a {
+  display: block;
+  font-size: 1.25rem;
+  color: rgb(236, 236, 236);
+  text-decoration: none;
+  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+  padding: 0 10px 0 32px;
+  position: relative;   
+  overflow: hidden;  
+}
+
+.menu a:hover {
+  color: #000000;
+  background: #ffffff;
+  transform: scale(1.01);
+  padding-left: 48px;
+  font-weight: bold;
+}
+
+.menu a::after {
+  content: ">";
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%) translateX(-50%);  /* старт — стрелка скрыта левее */
+  opacity: 0;
+  transition: opacity 0.18s ease, transform 0.18s ease;
+  font-weight: bold;
+  color: inherit;
+}
+
+.menu a:hover::after {
+  opacity: 1;
+  transform: translateY(-50%) translateX(0);   /* стрелка выезжает на место */
+}
+
+/* Кнопка закрытия внутри меню */
+.close-btn {
+  width: 100%; /* Растягиваем на всю ширину */
+  box-sizing: border-box;
+  padding: 10px 20px;
+  color: rgb(236, 236, 236);
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  transition: color 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.close-btn:hover {
+  color: #000000;
+  padding-left: 3rem;
+  background: #ffffff;
+  transform: scale(1.01);
+  font-weight: bold;
+}
+
+.close-btn::after {
+  content: "Х";
+  position: absolute;
+  font-weight: bold;
+  left: 15%;
+  top: 50%;
+  transform: translateY(-50%) translateX(-50%);  /* старт — стрелка скрыта левее */
+  opacity: 0;
+  transition: opacity 0.18s ease, transform 0.18s ease;
+  font-weight: bold;
+  color: inherit;
+}
+
+.close-btn:hover::after {
+  opacity: 1;
+  transform: translateY(-50%) translateX(0);   /* стрелка выезжает на место */
+}
+
+/* Показываем меню при клике */
+#menu-checkbox:checked + .menu {
+  right: 0;
+  opacity: 1;
+}
+
+/* Оверлей для закрытия по клике вне меню */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease-in-out;
+}
+
+#menu-checkbox:checked ~ .overlay {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.menu-poloska {
+  border-top: 3px dashed rgba(236, 236, 236, 0.411);
+  margin: 7px 0px 7px 0px;
+}
+
+.menu-text{
+  margin-top: auto;
+  padding: 10px 0px;
+}
+
+
+header {
+  padding: 10px 20px;
+}
+
+/*<--Текст ссылка на index-->*/
+.neural-network {
+  font-size: clamp(1.8rem, 6vw, 2.8rem);
+  font-weight: bold;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 20px;
+  min-height: 64px;
+  position: relative;
+  text-align: center;
+  text-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.neural-network::after {
+  content: attr(data-text);
+  position: absolute;
+  transform: translate(-50%, -50%);  /* Точное центрирование */
+  color: transparent;
+  -webkit-text-stroke: 1px rgb(214, 214, 214);
+  animation: neural-glitch 5s infinite linear;
+  padding: 0 10px;
+  opacity: 1;
+  width: 100%;
+  text-align: center;
+  pointer-events: none;
+  transition: opacity 0.7s ease;
+}
+
+.neural-network:hover::after {
+  animation-duration: 10s;
+  opacity: 0;
+}
+
+.neural-network:hover {
+  animation: none;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.85);
+}
+
+@keyframes neural-glitch {
+  0%, 100% { transform: translate(-0.7px, 1.8px); }
+  6% { transform: translate(1.5px, -1.2px); }
+  14% { transform: translate(1.5px, 0.8px); }
+  22% { transform: translate(0.6px, -1.6px); }
+  30% { transform: translate(-1.6px, 0.7px); }
+  38% { transform: translate(-1.5px, 1.0px); }
+  46% { transform: translate(1.0px, -1.9px); }
+  54% { transform: translate(1.2px, 1.1px); }
+  62% { transform: translate(1.8px, 0.0px); }
+  70% { transform: translate(-1.0px, 0.6px); }
+  78% { transform: translate(1.6px, 1.5px); }
+  82% { transform: translate(-1.3px, 0.2px); }
+  90% { transform: translate(-1.6px, -1.1px); }
+  98% { transform: translate(0.5px, 1.7px); }
+}
+
+
+
+header nav{
+  display: flex;
+  z-index: 100;
+  flex-shrink: 0;   
+  flex-direction: row;
+  justify-content: space-between;
+  text-align: center;
+}
+
+.page {
+  flex: 1 1 auto;   /* <<< КЛЮЧЕВОЕ: растягивается на всё свободное место */
+  overflow-y: auto;   /* скролл только внутри .page, если контент длинный */
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  width: 100%;
+  margin: auto;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 3%, black 95%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, black 3%, black 95%, transparent 100%);
+}
+
+
+main{
+  
+  width: 96%;  
+  padding: 10px 0px;
+  padding-bottom: 50px;
+  margin: auto;
+
+  flex-shrink: 0;   
+  display: flex;
+  flex-direction:column;
+  justify-content: space-between;
+  gap: 10px; 
+}
+
+section{
+  background: #00000000;
+  padding: 10px;
+  gap: 10px;  
+}
+
+/*<--  Первое -->*/
+h1 {
+  font-size: 2rem;
+  text-shadow: 0 0 15px rgba(255, 255, 255, 0.507);
+  position: relative;
+  margin-bottom: 15px;
+}
+
+.divider-line {
+  height: 3px;
+  background: linear-gradient(to right, transparent, rgba(214, 214, 214, 0.459), transparent);
+  margin: 4px 0;
+}
+
+/*про себя*/
+.me {
+  padding: 20px;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  text-shadow: 
+    0 0 20px rgb(0, 0, 0),
+    0 0 20px rgb(0, 0, 0),
+    0 0 20px rgb(0, 0, 0);
+}
+
+.me:hover{
+  color: #ffffff;
+  background: #000000c4;
+  transform: scale(1.01);
+  border-radius: 6px;
+}
+
+.me h1::after {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  left: 0;
+  width: 75%;
+  height: 3px;
+  background: linear-gradient(90deg, #d1d1d1a9, transparent);
+  border-radius: 3px;
+}
+
+
+.wall{
+  column-count: 10;/* сколько колонок */
+  column-gap: 15px;
+  column-width: 490px;  
+}
+
+/*Ссылки*/
+.links{
+  display: flex;
+  justify-content: center;  /* Горизонтальное центрирование */
+  min-width: 70%;
+  max-width: 1200px;
+}
+
+.links h1{
+  margin: auto;
+}
+
+.links h1::after {
+  width: 0%;
+}
+
+.link{
+  margin: auto;
+  align-items: center;
+}
+
+.link h2{
+  font-size: 1.75rem;
+  text-shadow: 0 0 15px rgba(146, 146, 146, 0.705);
+  margin-bottom: 15px;
+  text-shadow: 
+    0 0 20px rgb(0, 0, 0);
+}
+
+.link{
+  width: 75%;  
+  padding: 10px 0px;
+  margin: auto;
+
+  flex-shrink: 0;   
+  display: flex;
+  flex-direction:column;
+  justify-content: space-between;
+  gap: 10px; 
+}
+
+.link a {
+  width: 100%;
+  flex: 1;
+  background: rgba(255, 255, 255, 0.829);
+  padding: 10px;                    /* Увеличил padding для длинного текста */
+  color: #000000;
+  cursor: pointer;
+  border-radius: 6px;
+  font-size: 1.25rem;
+  text-decoration: none;
+  text-align: center;
+  text-shadow: none;
+  padding-right: 30px;
+
+}
+
+.link a:hover{
+  color: #ffffff;
+  background: #00000085;
+  transform: scale(1.01);
+  font-weight: bold;
+}
+
+.link a::before {
+  content: "> ";                     /* Убрал пробел — gap сделает отступ */
+  flex-shrink: 0;                   /* НЕ сжимается */
+  font-weight: bold;
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.link a:hover::before {
+  opacity: 1;
+}
+
+
+/*О Сайте*/
+.ver-site{
+  display: flex;
+  width: 99%;
+  margin: 0 auto;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.ver-site h2{
+  font-size: 1.75rem;
+  text-shadow: 0 0 15px rgba(146, 146, 146, 0.705);
+}
+
+.ver-site ul{
+  list-style-type:square;
+  list-style-position: inside;
+  text-shadow: 
+    0 0 20px rgb(0, 0, 0),
+    0 0 20px rgb(0, 0, 0);
+}
+
+.ver-site li{
+  padding: 5px; 
+}
+
+
+/*Проекты*/
+.projects-name{
+  margin-left: 35px;
+}
+
+/*Услуги*/
+.price ul{
+  list-style-type:square;
+  list-style-position: inside;
+  text-shadow: 
+    0 0 20px rgb(0, 0, 0),
+    0 0 20px rgb(0, 0, 0);
+}
+
+.price li{
+  padding: 5px; 
+}
+
+
+
+/*Сворачивание*/
+details {
+  border: 3px solid rgba(255, 255, 255, 0.801);
+  border-left: 8px solid rgba(255, 255, 255, 0.801); 
+  padding: 0;
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.637), rgba(0, 0, 0, 0));
+  border-radius: 3px; 
+  overflow: hidden;  
+}
+
+summary {
+  font-weight: bold; 
+  cursor: pointer; 
+  margin: 0; 
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.637), rgba(0, 0, 0, 0.336));
+  padding: 5px 40px 7px 10px; 
+  font-size: 1.1rem;
+  align-items: center;
+  position: relative;
+
+}
+
+summary::after {
+  content: "X";
+  position: absolute;
+  top: 5px;            
+  right: 8px;           
+  font-size: 1.25rem;
+  color: rgba(255, 255, 255, 0.8);
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  font-weight: normal;
+
+  font-weight: normal;
+}
+
+.sum-detal{
+  border-top: 2px solid rgba(255, 255, 255, 0.801);
+  display: flex;
+  flex-direction: column;
+  padding: 20px 10px 10px 10px;
+  gap: 20px;
+  font-size: 1.2rem;
+}
+
+.sum-detal ul{
+  list-style-type:square;
+  list-style-position: inside;
+}
+
+.sum-detal ul p{
+  margin: auto;
+  padding-bottom: 5px;
+}
+
+.sum-detal li{
+  padding: 5px;
+  font-size: 1.1rem;
+}
+
+.sum-time{
+  text-align: right;
+  font-size: 1rem;
+  margin: -20px 1px 0px 0px;
+}
+
+
+/*app*/
+.app{
+  break-inside: avoid;
+  margin-bottom: 16px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border: 3px solid rgba(255, 255, 255, 0.801);
+  border-top: 8px solid rgba(255, 255, 255, 0.801); 
+  border-radius: 3px;
+  background: #00000052;
+  font-size: 1rem;
+}
+
+.app-header{
+  flex-direction: row;
+  display: flex;
+  padding: 5px 10px 7px 10px ;
+  border-bottom: 2px solid;
+  justify-content: space-between;
+  background: #000000b0;
+  align-items: baseline
+}
+
+.app p{
+  cursor: pointer;
+  font-size: 1.2rem;
+  padding-right: 0.2rem;
+}
+
+.app h2{
+  font-size: 1.5rem;
+}
+
+.app-content{
+  font-size: 1rem;
+  background: #0000001f;
+  gap: 7px;
+
+  padding: 0px 12px 15px 12px;
+  display: flex;
+  flex-direction: column;
+  text-shadow:  
+    0 0 4px rgb(0, 0, 0),
+    0 0 20px rgb(0, 0, 0),
+    0 0 20px rgb(0, 0, 0);
+}
+
+.app h3{
+  margin: 0 0 5px 0;
+  text-align: center;
+}
+
+.app-content ul p{
+  font-weight: bold;
+  font-size: 1.1rem;
+  text-shadow: 
+    0 0 20px rgb(0, 0, 0),
+    0 0 20px rgb(0, 0, 0),
+    0 0 20px rgb(0, 0, 0);
+} 
+
+.app-content ul{
+  list-style-type:square;
+  list-style-position: inside;
+  text-shadow: 
+    0 0 20px rgb(0, 0, 0),
+    0 0 20px rgb(0, 0, 0);
+}
+
+.app-content li{
+  padding: 5px; 
+  font-size: 1.1rem;
+}
+
+.app-content img{
+  border-radius: 7px;
+  box-shadow: 0 0 20px #000;
+}
+
+.app-link{
+  display: flex;              /* Делаем flex-контейнер */
+  justify-content: center;    /* Центрируем по горизонтали (главная ось) */
+  align-items: center;        /* Центрируем по вертикали (поперечная ось) */
+  gap: 15px;                  
+  flex-wrap: wrap;
+  margin: auto;
+  width: 100%;
+}
+
+.app-link a{
+  flex: 1;
+  padding-left: 48px;
+  background:  rgba(255, 255, 255, 0.829);
+  border: none;
+  padding: 0.5rem 1rem;
+  color: #000000;
+  cursor: pointer;
+  border-radius: 6px;
+  font-size: 1.25rem;
+  position: relative;
+  text-shadow: none;
+  text-align: center;
+  white-space: nowrap; 
+
+  justify-content: center;
+}
+
+.app-link a::before {
+  content: "> ";
+  flex-shrink: 0;                   /* НЕ сжимается */
+  font-weight: bold;
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.app-link a:hover::before {
+  opacity: 1;
+}
+
+.app-link a:hover{
+  color: #ffffff;
+  background: #00000085;
+  transform: scale(1.01);
+  font-weight: bold;
+}
+
+
+a{
+  text-decoration: none;
+  transition: opacity 0.18s ease, transform 0.18s ease, background-color 0.3s, color 0.1s ;
+}
+
+/*стили кнопок*/
+a[data-btn-type="none"]:hover{
+  background: rgba(255, 255, 255);
+  color: #000000;
+}
+/*соц*/
+a[data-btn-type="vk"]:hover {
+  background: #0a63c9;
+}
+
+a[data-btn-type="tg"]:hover {
+  background: linear-gradient(45deg, #0082b6, #1bb399);
+}
+
+a[data-btn-type="twitch"]:hover {
+  background: #6c30c5;
+}
+
+a[data-btn-type="x"]:hover {
+  background: #000000;
+}
+
+a[data-btn-type="bsky"]:hover {
+  background: #0094b9;
+}
+
+a[data-btn-type="dart"]:hover {
+  color: #00ff55;
+  background: black;
+}
+
+a[data-btn-type="ds"]:hover {
+  background: #3f62ac;
+}
+
+a[data-btn-type="tumbler"]:hover {
+  background: #032144;
+}
+
+a[data-btn-type="youtube"]:hover {
+  background: linear-gradient(45deg, #af0225, #b91b68);
+}
+
+a[data-btn-type="tt"]:hover {
+  background: linear-gradient(45deg, #01c5c5, #bb1062);
+}
+
+/*донат*/
+a[data-btn-type="lava"]:hover {
+  color:#0055b6;
+  background: #e2e2e2;
+}
+
+a[data-btn-type="da"]:hover {
+  background: #c77920;
+}
+
+a[data-btn-type="fetta"]:hover {
+  background: linear-gradient(15deg, #fab12a, #c41b78);
+}
+
+a[data-btn-type="boosty"]:hover {
+  background: linear-gradient(45deg, #dd841f, #d44a1f);
+}
+
+a[data-btn-type="ko-fi"]:hover {
+  background: #8a466288; /*на будущее*/
+}
+
+a[data-btn-type="patreon"]:hover {
+  background: #964f4a88; /*на будущее*/
+}
+
+/*проекты*/
+a[data-btn-type="itch"]:hover {
+  background: #ce4d4d; 
+}
+
+
+footer {
+  margin: auto;
+  flex-shrink: 0;   /* footer не сжимается */
+}
+
+
+
+/* ============================================= */
+/*                  АДАПТИВНОСТЬ — ПОЛНЫЙ БЛОК   */
+/* ============================================= */
+
+/* ====================== ОЧЕНЬ МАЛЕНЬКИЕ ТЕЛЕФОНЫ ====================== */
+@media (max-width: 480px) {
+  html { font-size: 15.2px; }
+
+  header { padding: 10px 14px; }
+
+  .neural-network {
+    min-height: 52px;
+    padding: 6px 14px;
+    font-size: 1.72rem;
+  }
+
+  main {
+    width: 94%;
+    padding: 12px 0 50px;
+    gap: 20px;
+  }
+
+  .menu { width: 100%; right: -100%; }
+
+  .wall { column-count: 1; }
+
+  .app-link {
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .app-link a {
+    width: 100%;
+    font-size: 1.18rem;
+    padding: 16px 20px;
+  }
+}
+
+/* ====================== СРЕДНИЕ ТЕЛЕФОНЫ ====================== */
+@media (min-width: 481px) and (max-width: 767px) {
+  html { font-size: 16px; }
+
+  .menu { width: 300px; }
+
+  .neural-network { min-height: 56px; }
+
+  main { width: 95%; gap: 24px; }
+
+  .wall { column-count: 2; }
+
+  .app-link {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .menu-text {
+    display: none;
+  }
+    
+  /* Можно добавить небольшой отступ, если нужно */
+  .menu-toggle {
+    padding: 10px 12px;   /* чуть компактнее на мобильных */
+  }
+}

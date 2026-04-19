@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Mantikorit | Home</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="icon" href="../assets/favicon.png" type="image/x-icon">
+
+</head>
+<body>
+
+    <header class="content" style="z-index: 2;">
+
+        <nav>     
+            <a href="index.html" class="neural-network" data-text="Mantikorit">Mantikorit</a>
+
+            <input type="checkbox" id="menu-checkbox">
+
+            <ul class="menu">
+                <li><button class="close-btn" onclick="document.getElementById('menu-checkbox').checked = false;">
+                    Закрыть
+                </button></li>
+                
+                <div class="menu-poloska"></div> 
+                
+                <li><a href="index.html">Главная</a></li>
+                <li><a href="links.html">Ссылки</a></li>
+                <li><a href="projects.html">Проекты</a></li>
+                <li><a href="services.html">Услуги</a></li>
+                <li><a href="osite.html">О сайте</a></li>
+
+                <div class="menu-poloska"></div> 
+
+                <li><p class="act">> &nbsp;&nbsp; RU</p></li>
+                <li><a href="">EN</a></li>    
+
+                <div class="menu-poloska"></div> 
+
+                <div class="menu-text">
+                    <p>> by Mantiorit</p>
+                    <p>> v2.0</p>
+                </div>
+            </ul>
+
+            <button class="menu-toggle" onclick="document.getElementById('menu-checkbox').checked = true;">
+                <span class="menu-text">Меню</span>
+                <span class="menu-icon">☰</span>
+            </button>
+            
+            <label for="menu-checkbox" class="overlay"></label>
+    
+        </nav>
+
+    </header>
+
+    <div class="page" style="z-index: 1;">
+        <main class="content">
+            <section id="me" class="me">
+                <a href="links.html">
+                    <h1>Здрасть, я Mantikorit</h1>
+                    <p>Художник, программист, стример и ещё кто-то везде по чучуть.</p>
+                </a>
+            </section>
+
+            <div class="divider-line"></div>
+           
+           <section id="wall" class="wall">
+
+                <article class="app" id="activ-project">
+                    <div class="app-header">
+                    
+                        <h2>Активный проект</h2>  
+                        <p>Х</p>       
+
+                    </div>
+                    <div class="app-content">
+        
+                        <img src="../assets/wall/XUzkn0.png" alt="Превью DTtS">
+                        
+                        <div class="menu-poloska"></div> 
+
+                        <h3># Новелла "DON`T TALK TO STRANGERS"</h3>
+                        <p>> Новелла знакомой, в которой выступаю разработчиком.</p> 
+                        <p>> Активно разрабатывается обновление v1.2.</p>
+
+                        <div class="menu-poloska"></div>
+                        
+                        <div class="app-link">
+                            <a target="_blank" data-btn-type="itch" href="https://boar-herdsman.itch.io/dtts" target="_blank">itch.io</a>
+                            <a target="_blank" data-btn-type="tg" href="https://t.me/dtts_vn" target="_blank">tg проекта</a>
+                            <a target="_blank" data-btn-type="tg" href="https://t.me/boar_pasture" target="_blank">tg автора</a>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="app" id="commisions">
+                    <div class="app-header">
+                    
+                        <h2>Коммишки</h2>  
+                        <p>Х</p>   
+
+                    </div>
+                    <div class="app-content">                      
+                        <p>> Можете заказть у меня арт...</p>
+                        <div class="menu-poloska"></div>
+
+                        <div class="app-link">
+                            <a href="services.html">СКОРО</a>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="app" id="latest-video">
+                    <div class="app-header">
+                    
+                        <h2>Видео?</h2>  
+                        <p>Х</p>       
+
+                    </div>
+                    <div class="app-content">
+        
+                        <p>> В будущем я собираюсь хоть что-то выпускать.</p>
+                        <p>> Пока только спидпэинты....</p>
+                        <p>> Ладно...</p>
+
+                        <div class="menu-poloska"></div>
+                            
+                        <div class="app-link">
+                            <a href="https://www.youtube.com/watch?v=p2Kn_Il-jzQ">Подробней</a>
+
+                        </div>
+                    </div>
+                </article>
+
+                <article class="app" id="site-plan">
+                    <div class="app-header">
+                    
+                        <h2>Планы по сайту</h2> 
+                        <p>Х</p>        
+
+                    </div>
+                    <div class="app-content">
+
+                        <p>> Сайт будет доробатываться и соответсвенно есть планы на будущее.</p>
+
+                        <div class="menu-poloska"></div> 
+
+                        <ul><p>Из "желаемого" :</p>
+                            <li>Добавление изображений на главной</li>
+                            <li>Добавление/дописывание информации по мере необходимости</li>
+                            <li>Заполненипе "services.html"</li>
+                            <li>Что-то микро рандомное</li>
+                        </ul>
+
+                        <div class="menu-poloska"></div>
+                        
+                        <div class="app-link">
+                            <a href="osite.html">Подробней</a>
+                        </div>
+                    </div>
+                </article>
+
+                <!--  == Шаблон артикулов == 
+                
+                <article class="app" id="id">
+                    <div class="app-header">
+                    
+                        <h2>Title</h2>    
+                        <p>Х</p>    
+
+                    </div>
+                    <div class="app-content">
+        
+                        <img src="../assets/banners/XUzkn0.png" alt="Превью DTtS">
+                        
+                        <div class="menu-poloska"></div> 
+
+                        <h3># Title Text</h3>
+                        <p>> text</p>
+
+                        <div class="menu-poloska"></div> 
+
+                        <ul><p>Tit :</p>
+                            <li>point</li>
+                        </ul>
+
+                        <div class="menu-poloska"></div>
+                        
+                        <div class="app-link">
+                            <a data-btn-type="tg" target="_blank" href="">Link</a>
+                            <a href="">Link</a>
+                            <a href="">Link</a>
+                        </div>
+                    </div>
+                </article>
+                
+                -->
+
+            </section>
+        </main> 
+    </div>
+
+    <footer>
+        <!--<div>Сделано @Mantikorit для личных целей / 2025</div>-->
+    </footer>
+    
+    <script src="../scripts/bg_space.js" data-config="../jsons/bg_defolt.json"></script>
+
+</body>
+</html>

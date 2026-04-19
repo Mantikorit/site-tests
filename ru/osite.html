@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Mantikorit | site</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="icon" href="../assets/favicon.png" type="image/x-icon">
+
+</head>
+
+<body>
+    <header class="content" style="z-index: 2;">
+
+        <nav>     
+            <a href="index.html" class="neural-network" data-text="Mantikorit">Mantikorit</a>
+
+            <input type="checkbox" id="menu-checkbox">
+
+            <ul class="menu">
+                <li><button class="close-btn" onclick="document.getElementById('menu-checkbox').checked = false;">
+                    Закрыть
+                </button></li>
+                
+                <div class="menu-poloska"></div> 
+                
+                <li><a href="index.html">Главная</a></li>
+                <li><a href="links.html">Ссылки</a></li>
+                <li><a href="projects.html">Проекты</a></li>
+                <li><a href="services.html">Услуги</a></li>
+                <li><a href="osite.html">О сайте</a></li>
+
+                <div class="menu-poloska"></div> 
+
+                <li><p class="act">> &nbsp;&nbsp; RU</p></li>
+                <li><a href="">EN</a></li>    
+
+                <div class="menu-poloska"></div> 
+
+                <div class="menu-text">
+                    <p>> by Mantiorit</p>
+                    <p>> v2.0</p>
+                </div>
+            </ul>
+
+            <button class="menu-toggle" onclick="document.getElementById('menu-checkbox').checked = true;">
+                <span class="menu-text">Меню</span>
+                <span class="menu-icon">☰</span>
+            </button>
+            
+            <label for="menu-checkbox" class="overlay"></label>
+    
+        </nav>
+
+    </header>
+
+    <div class="page" style="z-index: 1;">
+        <main class="content">
+            <section id="site" class="">
+                <h1>О сайте</h1>
+                <p>Данный сайт является личной "визит карточкой" и личным самописным проектом/хотелкой.</p>
+            </section>
+            
+            <section id="versions" class="ver-site">
+
+                <h2>> Актуальная версия сайта - V2.0 "Перевод"</h2>
+               
+                <ul> <h3>Изменения:</h3>
+                    <li>Создание перевода</li>
+                    <li>Изменение меню</li>
+                    <li>Изменения в оформлении</li>
+                </ul>
+                <!--<p>2025-02-**</p>-->
+   
+                <ul> <h3>Планы на будущее:</h3>
+                    <li>Добавление/дописывание информации по мере необходимости</li>
+                    <li>Добавление разделов по необходимости</li>
+                    <li>Возможное добавление своих "иконок"?</li>
+                    <li>Добавить картинки/изображения</li>
+                    <li>Заполненипе "services.html"</li>
+                    <li>Что-то микро рандомное</li>
+                </ul>
+
+            </section>
+
+            <div class="plosk"></div>
+
+            <section id="history-vers" class="ver-site">
+                <h2>> История версий</h2>
+                <h3>Тут перечень всех версий и изменений:</h3>
+                
+                <!--v1-->
+                <details>
+                    <summary>Версия сайта v1.0 "Многостраничный"</summary>
+                    <div class="sum-detal">
+                        <p>
+                           Желание систематизации и разделения на разделы для удобства для избавления «кучи мала»
+                        </p>
+                        <div class="menu-poloska"></div> 
+                        <ul>
+                            <p>Изменения :</p>
+                            <li>Уход на многостраничную версию</li>
+                            <li>Разделение информации по страницам и изменение информации</li>
+                            <li>Изменения в оформлении</li>
+                        </ul>
+                        <p class="sum-time">-- 2025-09-03</p>
+                    </div>
+                </details> 
+
+                <!--V0-->
+                <details>
+                    <summary>Версия сайта v0.0 "бетка"/"одностраничный"</summary>
+                    <div class="sum-detal">
+
+                        <p>
+                            Сайт делался долго из-за долгих раздумий по содержанию и стилизации,
+                            было несколько тестовых вариантов до этого (Среди которых под эстетику xp,
+                            компьютерного приложения, старая вики и тп и др) и было не до этого из-за финала учёбы в университете.
+                            "Вброс" на общий доступ делался резко как есть, с основой и хоть с чем-то.
+                        </p>
+                        <p class="sum-time">-- 2025-07-15</p>
+                    </div>
+                </details>  
+                
+            </section>
+
+        </main> 
+    </div>
+
+    <footer class="content">
+        <!--<div>Сделано @Mantikorit для личных целей / 2025</div>-->
+    </footer>
+    
+    <script src="../scripts/bg_space.js" data-config="../jsons/bg_defolt.json"></script>
+
+</body>
+</html>
+
+
+<!--  Шаблон
+<details>
+    <summary>Название"</summary>
+        <p>Текст</p>
+        <ul>
+            <li></li>
+        </ul>    
+        <p class="sum-time">-- гггг-мм-дд</p>
+    </details>  
+-->
